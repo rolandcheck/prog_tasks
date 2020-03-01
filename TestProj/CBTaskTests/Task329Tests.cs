@@ -12,12 +12,11 @@ namespace TestProj.CBTaskTests
         public bool Task329_CorrectOutput(int[] input, int desiredSum)
         {
             // arrange
-            var myList = input.Select(x => new SignedNumber(x));
-
+            // ...   
 
             // act
             var solver = new Task329Solver();
-            var result = solver.Solve(myList, desiredSum);
+            var result = solver.Solve(input, desiredSum);
 
 
             // assert

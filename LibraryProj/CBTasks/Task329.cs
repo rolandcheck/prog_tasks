@@ -1,33 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 namespace LibraryProj.CBTasks
 {
-    public class SignedNumber
-    {
-        public SignedNumber(int number)
-        {
-            Number = number;
-        }
-
-        public int Number { get; private set; }
-
-        public void Negate()
-        {
-            Number *= -1;
-        }
-        public override string ToString()
-        {
-            return $"{Number}";
-        }
-    }
-
     public class Task329Solver {
 
         public Task329Solver() { }
 
-        public IEnumerable<SignedNumber> Solve(IEnumerable<SignedNumber> numbers, int desiredSum)
+        public IEnumerable<int> Solve(IEnumerable<int> numbers, int desiredSum)
         {
             var localCopy = numbers.ToList();
             var i = 0;
@@ -37,30 +17,31 @@ namespace LibraryProj.CBTasks
                 var allSum = localCopy.Sum();
 
                 var extra = allSum - desiredSum;
-                var extraAbs = Math.Abs(extra);
-                if (extraAbs == 0)
+                if ( extra == 0 ) 
                 {
                     break;
                 }
-
-                var desiredNumberToNegate = localCopy.FirstOrDefault(x => x.Number == extra / 2);
-                if ( desiredNumberToNegate is null ) {
-                    desiredNumberToNegate = localCopy.OrderBy(x => x.Number).Last();
+                var desiredNumberToNegateIndex = localCopy.IndexOf(extra / 2);
+                if (desiredNumberToNegateIndex < 0)
+                {
+                    desiredNumberToNegateIndex = localCopy.ArgMax();
                 }
 
-                desiredNumberToNegate?.Negate(); 
+                localCopy[desiredNumberToNegateIndex] *= -1; 
             }
 
             return localCopy;
         }
     }
 
-    public static class MyExtensions {
-        public static int Sum(this IEnumerable<SignedNumber> numbers)
-        {
-            var result = numbers.Sum(x => x.Number);
+    public static class MyExtensions
+    {
+        public static int ArgMax(this IEnumerable<int> numbers) {
+            var max = numbers.Select((value, index) => new { value, index })
+                 .OrderByDescending(x => x.value)
+                 .First();
 
-            return result;
+            return max.index;
         }
     }
 }
