@@ -1,12 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
-using System.Threading.Tasks;
-using System.Transactions;
 
-namespace TwoSum
+namespace LibraryProj.LeetCode.ArrayTargetSum
 {
     /// <summary>
     /// Solves https://leetcode.com/problems/two-sum/ task
@@ -19,7 +14,7 @@ namespace TwoSum
         /// <param name="nums">Array of numbers</param>
         /// <param name="target">Target sum of two numbers from input array</param>
         /// <returns>Array of two number indices that sum up to target</returns>
-        /// <exception cref="InvalidOperationException"></exception>
+        /// <exception cref="TwoSumSolverException">Thrown if there is no such two numbers</exception>
         public int[] Solve(int[] nums, int target)
         {
             var bag = new Dictionary<int, int>();
@@ -28,15 +23,15 @@ namespace TwoSum
             {
                 var residue = target - nums[i];
                 
-                if (bag.ContainsKey(residue))
+                if (bag.TryGetValue(residue, out var index))
                 {
-                    return new[] {bag[residue], i};
-                } 
+                    return new[] {index, i};
+                }
                 
-                bag.Add(nums[i], i);
+                bag[nums[i]] = i;
             }
 
-            throw new TwoSumSolverException($"There is no two numbers that sum to target {target}");
+            throw new TwoSumSolverException($"There is no two numbers that sum up to the target {target}");
         }
     }
 

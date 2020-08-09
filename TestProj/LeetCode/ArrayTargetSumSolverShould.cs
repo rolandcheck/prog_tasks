@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TwoSum;
+using LibraryProj.LeetCode.ArrayTargetSum;
 using NUnit.Framework;
 
 namespace TestProj.LeetCode
